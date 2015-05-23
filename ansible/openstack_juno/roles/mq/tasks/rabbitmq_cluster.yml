@@ -1,0 +1,24 @@
+---
+- name: install rabbitmq-plugins
+  apt: name=rabbitmq-plugins state=present
+  
+- name: update .erlang.cookie
+  template: src=.erlang.cookie dest=/var/lib/rabbitmq/.erlang.cookie
+            group = rabbitmq
+            owner = rabbitmq
+            mode 0400
+
+- name: stop rabbitmq app
+  command: rabbitmqctl stop_app
+
+- name: join  cluster
+  command: rabbitmqctl join_cluster rabbit@{{ item }}
+  with_items:
+    groups['controller']
+
+- name: start rabbitmq app
+  command: rabbitmqctl start_app
+
+- name: set the HA policy
+  rabbitmq_policy: name=ha-all pattern='^(?!amq\.).*' tags="ha-mode=all"
+ 

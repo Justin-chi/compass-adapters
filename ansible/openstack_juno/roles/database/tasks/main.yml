@@ -1,9 +1,9 @@
 ---
 - include: mysql.yml
-  when: ha_cluster is not defined 
+  when: ha is not defined 
 
 - include: mariadb.yml
-  when: ha_cluster is defined 
+  when: ha is defined 
 
 - name: create keystone db model
   mysql_db: name=keystone
