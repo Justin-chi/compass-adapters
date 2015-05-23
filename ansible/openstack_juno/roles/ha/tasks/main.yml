@@ -1,3 +1,12 @@
 ---
-- include: keepalived.yml
-- include: haproxy.yml
+- name: install keepalived
+  apt: name=keepalived state=present
+  
+
+- name: install xinetd
+  apt: name=xinetd state=present
+
+- name: install haproxy
+  apt: name=haproxy state=present
+
+
