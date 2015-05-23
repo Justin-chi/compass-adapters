@@ -21,3 +21,8 @@
     - nova-compute
     - neutron-compute
 
+- hosts: ha
+  remote_user: root
+  sudo: True
+  roles:
+    - common

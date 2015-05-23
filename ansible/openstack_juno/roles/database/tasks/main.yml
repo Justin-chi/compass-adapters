@@ -1,20 +1,9 @@
 ---
-- name: install mysql client and server packages
-  apt: name={{ item }} state=present
-  with_items:
-    - python-mysqldb
-    - mysql-server
+- include: mysql.yml
+  when: ha_cluster is not defined 
 
-- name: update mysql my.cnf
-  copy: src=my.cnf
-        dest=/etc/mysql/my.cnf
-        backup=yes
-  notify:
-    - restart mysql
-
-- name: manually restart mysql server
-  service: name=mysql
-           state=restarted
+- include: mariadb.yml
+  when: ha_cluster is defined 
 
 - name: create keystone db model
   mysql_db: name=keystone
