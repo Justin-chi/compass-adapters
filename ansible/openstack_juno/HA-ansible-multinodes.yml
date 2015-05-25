@@ -25,4 +25,4 @@
   remote_user: root
   sudo: True
   roles:
-    - common
+    - ha

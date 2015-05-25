@@ -9,4 +9,29 @@
 - name: install haproxy
   apt: name=haproxy state=present
 
+- name: update haproxy cfg
+  template: src=haproxy.cfg dest=/etc/haproxy/haproxy.cfg
+  notify: restart haproxy
 
+- name: set haproxy enable flag
+  lineinfile: dest=/etc/default/haproxy state=present
+              regexp="ENABLED=*"
+              line="ENABLED=1"
+  notify: restart haproxy
+
+- name: copy galera_chk file
+  copy: src=galera_chk dest=/usr/local/bin/galera_chk mode=0777
+
+- name: add network service
+  lineinfile: dest=/etc/services state=present
+              line="mysqlchk          9200/tcp"
+              insertafter="Local services"
+  notify: restart xinetd
+
+- name: copy mysqlchk file
+  copy: src=mysqlchk dest=/etc/xinetd.d/mysqlchk mode=0777
+  notify: restart xinetd
+
+- name: update keepalived info
+  template: src=keepalived.conf dest=/etc/keepalived/keepalived.conf
+  notify: restart keepalived
