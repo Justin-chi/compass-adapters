@@ -2,7 +2,8 @@
 - name: install python-mysqldb
   apt: name={{ item }} state=present force=yes
   with_items:
-      - libaio1 libssl0.9.8
+      - libaio1
+      - libssl0.9.8
       - mysql-client-5.5
       - python-mysqldb
 
@@ -13,7 +14,7 @@
     - { url:  "{{ GALERA_URL }}", filename: "{{ GALERA }}" }
 
 - name: install mariadb  and galera packages
-  apt: deb=/opt/{{ item }} state=installed
+  command: dpkg -i deb=/opt/{{ item }}
   with_items:
     - "{{ MARIADB }}"
     - "{{ GALERA }}"
@@ -32,11 +33,6 @@
   service: name=mysql
            state=restarted
 
-- name: init database root password with NULL
-  shell: mysqladmin -uroot -proot password ""
-  ignore_errors: yes
-
-      
 - name: create wsrep sst local user
   mysql_user: name={{ WSREP_SST_USER }}
               password={{ WSREP_SST_PASS }}
