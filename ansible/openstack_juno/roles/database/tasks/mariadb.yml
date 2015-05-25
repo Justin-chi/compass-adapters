@@ -14,13 +14,13 @@
     - { url:  "{{ GALERA_URL }}", filename: "{{ GALERA }}" }
 
 - name: install mariadb  and galera packages
-  command: dpkg -i deb=/opt/{{ item }}
+  command: dpkg -i /opt/{{ item }}
   with_items:
     - "{{ MARIADB }}"
     - "{{ GALERA }}"
 
 - name: update mariadb my.cnf
-  copy: src=my.cnf dest=/etc/mysql/my.cnf backup=yes
+  template: src=my.cnf dest=/etc/mysql/my.cnf backup=yes
 
 - name: update galera wsrep.cnf
   template: src=wsrep.cnf dest=/etc/mysql/conf.d/wsrep.cnf
