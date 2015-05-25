@@ -1,7 +1,4 @@
 ---
-- name: install rabbitmq-plugins
-  apt: name=rabbitmq-plugins state=present
-  
 - name: update .erlang.cookie
   copy: src=.erlang.cookie dest=/var/lib/rabbitmq/.erlang.cookie
         group = rabbitmq
