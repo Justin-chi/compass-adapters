@@ -9,6 +9,10 @@
 - name: install haproxy
   apt: name=haproxy state=present
 
+- name: activate ip_nonlocal_bind
+  sysctl: name=net.ipv4.ip_nonlocal_bind value=1
+          state=present reload=yes
+
 - name: update haproxy cfg
   template: src=haproxy.cfg dest=/etc/haproxy/haproxy.cfg
   notify: restart haproxy
