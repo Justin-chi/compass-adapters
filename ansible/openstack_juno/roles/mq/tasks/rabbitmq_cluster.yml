@@ -3,16 +3,18 @@
   apt: name=rabbitmq-plugins state=present
   
 - name: update .erlang.cookie
-  template: src=.erlang.cookie dest=/var/lib/rabbitmq/.erlang.cookie
-            group = rabbitmq
-            owner = rabbitmq
-            mode 0400
+  copy: src=.erlang.cookie dest=/var/lib/rabbitmq/.erlang.cookie
+        group = rabbitmq
+        owner = rabbitmq
+        mode 0400
 
 - name: stop rabbitmq app
   command: rabbitmqctl stop_app
+  ignore_errors: yes
 
 - name: join  cluster
   command: rabbitmqctl join_cluster rabbit@{{ item }}
+  when: item  != inventory_hostname
   with_items:
     groups['controller']
 
@@ -21,4 +23,4 @@
 
 - name: set the HA policy
   rabbitmq_policy: name=ha-all pattern='^(?!amq\.).*' tags="ha-mode=all"
- 
+
