@@ -23,11 +23,18 @@
   template: src=my.cnf dest=/etc/mysql/my.cnf backup=yes
 
 - name: update galera wsrep.cnf
-  template: src=wsrep.cnf dest=/etc/mysql/conf.d/wsrep.cnf
+  template: src=wsrep.cnf dest=/etc/mysql/conf.d/wsrep.cnf backup=yes
 
 - name: update wsrep_cluster_address
   lineinfile: dest=/etc/mysql/conf.d/wsrep.cnf state=present regexp="^#wsrep_cluster_address=*"
-              line="wsrep_cluster_address=gcomm://{{ WSREP_BKP[inventory_hostname] }}"
+              line="wsrep_cluster_address=gcomm://{{ WSREP_BKP[inventory_hostname] }}" backup=yes
+
+
+- name: update wsrep_sst_rsync uid 
+  lineinfile: dest=/usr/bin/wsrep_sst_rsync state=absent regexp="\s*uid = \$MYUID$"  backup=yes
+
+- name: update wsrep_sst_rsync gid 
+  lineinfile: dest=/usr/bin/wsrep_sst_rsync state=absent regexp="\s*gid = \$MYGID$"  backup=yes
 
 - name: manually restart mysql server
   service: name=mysql
