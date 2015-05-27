@@ -27,8 +27,7 @@
 
 - name: update wsrep_cluster_address
   lineinfile: dest=/etc/mysql/conf.d/wsrep.cnf state=present regexp="^#wsrep_cluster_address=*"
-              line="wsrep_cluster_address=gcomm://{{ WSREP_BKP[inventory_hostname] }}" backup=yes
-
+              line="wsrep_cluster_address=gcomm://{{ HA_CLUSTER[inventory_hostname] }}" backup=yes
 
 - name: update wsrep_sst_rsync uid 
   lineinfile: dest=/usr/bin/wsrep_sst_rsync state=absent regexp="\s*uid = \$MYUID$"  backup=yes
@@ -40,15 +39,5 @@
   service: name=mysql
            state=restarted
 
-- name: create wsrep sst local user
-  mysql_user: name={{ WSREP_SST_USER }}
-              password={{ WSREP_SST_PASS }}
-              priv=ALL.*:ALL
-              state=present
-
-- name: create wsrep sst local user
-  mysql_user: name={{ WSREP_SST_USER }}
-              host=%
-              password={{ WSREP_SST_PASS }}
-              priv=ALL.*:ALL
-              state=present
+- include data.yml
+  when: HA_CLUSTER[inventory_hostname] == None

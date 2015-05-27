@@ -1,17 +1,22 @@
 ---
 - name: update .erlang.cookie
-  copy: src=.erlang.cookie dest=/var/lib/rabbitmq/.erlang.cookie
-        group = rabbitmq
-        owner = rabbitmq
-        mode 0400
+  template: src=.erlang.cookie dest=/var/lib/rabbitmq/.erlang.cookie
+        group=rabbitmq
+        owner=rabbitmq
+        mode=0400
 
 - name: stop rabbitmq app
   command: rabbitmqctl stop_app
+  when: HA_CLUSTER[inventory_hostname] == None
   ignore_errors: yes
+
+- name: rabbitmqctl reset
+  command: rabbitmqctl reset
+  when: HA_CLUSTER[inventory_hostname] == None
 
 - name: join  cluster
   command: rabbitmqctl join_cluster rabbit@{{ item }}
-  when: item  != inventory_hostname
+  when: item  != inventory_hostname and HA_CLUSTER[item] == None
   with_items:
     groups['controller']
 
