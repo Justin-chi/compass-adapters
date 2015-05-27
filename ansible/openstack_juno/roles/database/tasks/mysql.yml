@@ -16,4 +16,4 @@
   service: name=mysql
            state=restarted
 
-- include data.yml
+- include: data.yml
