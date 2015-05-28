@@ -19,7 +19,7 @@
       - cinder-controller
       - glance
 
-- hosts: computer
+- hosts: compute
   remote_user: root
   sudo: True
   roles:
