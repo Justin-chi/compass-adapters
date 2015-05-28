@@ -7,12 +7,12 @@
 
 - name: stop rabbitmq app
   command: rabbitmqctl stop_app
-  when: HA_CLUSTER[inventory_hostname] == None
+  when: HA_CLUSTER[inventory_hostname] != None
   ignore_errors: yes
 
 - name: rabbitmqctl reset
   command: rabbitmqctl reset
-  when: HA_CLUSTER[inventory_hostname] == None
+  when: HA_CLUSTER[inventory_hostname] != None
 
 - name: join  cluster
   command: rabbitmqctl join_cluster rabbit@{{ item }}
