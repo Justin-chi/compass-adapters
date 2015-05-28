@@ -1,0 +1,4 @@
+---
+- name: copy local sources.list
+  template: src=sources.list dest=/etc/apt/sources.list backup=yes
+  when: LOCAL_REPO is defined
