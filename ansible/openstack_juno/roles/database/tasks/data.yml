@@ -110,7 +110,7 @@
               password={{ WSREP_SST_PASS }}
               priv=ALL.*:ALL
               state=present
-  when: "ha is defined and HA_CLUSTER[inventory_hostname] == None"
+  when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
 
 - name: create wsrep sst local user
   mysql_user: name={{ WSREP_SST_USER }}
@@ -118,7 +118,7 @@
               password={{ WSREP_SST_PASS }}
               priv=ALL.*:ALL
               state=present
-  when: "ha is defined and HA_CLUSTER[inventory_hostname] == None"
+  when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
 
 - name: reload privilege tables
   command: 'mysql -ne "{{ item }}"'

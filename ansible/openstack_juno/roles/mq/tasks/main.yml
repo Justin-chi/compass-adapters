@@ -2,4 +2,4 @@
 - include: rabbitmq.yml
 
 - include: rabbitmq_cluster.yml
-  when: ha is defined
+  when: HA_CLUSTER is defined

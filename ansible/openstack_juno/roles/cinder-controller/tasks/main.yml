@@ -14,6 +14,7 @@
 
 - name: sync cinder db
   shell: su -s /bin/sh -c "cinder-manage db sync" cinder && cinder
+  when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
   notify:
     - restart cinder-scheduler
     - restart cinder-api
@@ -25,5 +26,6 @@
 
 - name: run cinder register script
   shell: /opt/cinder_init.sh && touch cinder_init_complete
+  when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
   args:
     creates: cinder_init_complete

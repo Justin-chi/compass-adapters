@@ -42,5 +42,6 @@
 
 - name: neutron-db-manage upgrade to Juno
   shell: neutron-db-manage --config-file=/etc/neutron/neutron.conf --config-file=/etc/neutron/plugins/ml2/ml2_conf.ini upgrade head
+  when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
   notify:
     - restart neutron-server

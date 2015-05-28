@@ -1,7 +1,7 @@
 ---
 - include: mysql.yml
-  when: ha is not defined 
+  when: HA_CLUSTER is not defined
 
 - include: mariadb.yml
-  when: ha is defined 
+  when: HA_CLUSTER is defined
 
