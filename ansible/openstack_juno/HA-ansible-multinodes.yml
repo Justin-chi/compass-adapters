@@ -3,7 +3,7 @@
   remote_user: root
   sudo: true
   roles:
-    repo
+    - repo
 
 - hosts: ha
   remote_user: root
