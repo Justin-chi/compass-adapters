@@ -84,7 +84,7 @@
   mysql_db: name=cinder
             state=present
 
-- name: create cinder remote user
+- name: create cinder user
   mysql_user: host={{ item }}
               name=cinder
               password={{ CINDER_DBPASS }}
