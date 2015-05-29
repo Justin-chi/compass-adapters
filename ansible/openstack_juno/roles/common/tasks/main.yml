@@ -31,9 +31,3 @@
   notify:
     - restart ntp
 
-- name: update pip
-  pip: name={{ item }} state=latest extra_args='-i http://pypi.douban.com/simple/ --trusted-host pypi.douban.com'
-  with_items:
-  with_items:
-    - pip
-
