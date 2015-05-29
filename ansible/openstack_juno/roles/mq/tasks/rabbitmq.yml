@@ -2,7 +2,17 @@
 - name: install rabbitmq-server
   apt: name=rabbitmq-server state=present
 
+- name: stop rabbitmq-server
+  service: name=rabbitmq-server
+           state=stopped
+
+- name: update .erlang.cookie
+  template: src=.erlang.cookie dest=/var/lib/rabbitmq/.erlang.cookie
+        group=rabbitmq
+        owner=rabbitmq
+        mode=0400
+
 - name: start and enable rabbitmq-server
   service: name=rabbitmq-server
-           state=restarted
+           state=started
            enabled=yes
