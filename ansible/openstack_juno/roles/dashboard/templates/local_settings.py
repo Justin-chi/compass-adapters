@@ -127,7 +127,7 @@ COMPRESS_OFFLINE = True
 # By default, validation of the HTTP Host header is disabled.  Production
 # installations should have this set accordingly.  For more information
 # see https://docs.djangoproject.com/en/dev/ref/settings/.
-ALLOWED_HOSTS = ['{{ dashboard_host }}', '0.0.0.0']
+ALLOWED_HOSTS = ['{{ dashboard_host }}']
 
 # Send email to the console by default
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

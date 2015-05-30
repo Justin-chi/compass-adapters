@@ -1,7 +1,4 @@
 ---
-- name: create mysql log directy
-  file: path=/var/log/mysql state=directory mode=0755
-
 - include: mysql.yml
   when: HA_CLUSTER is not defined
 
