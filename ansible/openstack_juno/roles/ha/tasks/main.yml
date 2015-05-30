@@ -29,7 +29,7 @@
 - name: set haproxy log
   lineinfile: dest=/etc/rsyslog.conf state=present
               line="local1.* /var/log/haproxy.log"
-  notify: restart rsyslog
+#  notify: restart rsyslog
 
 - name: copy galera_chk file
   copy: src=galera_chk dest=/usr/local/bin/galera_chk mode=0777
@@ -51,7 +51,7 @@
 - name: set keepalived log
   lineinfile: dest=/etc/rsyslog.conf state=present
               line="local0.*  /var/log/keepalived.log"
-  notify: restart rsyslog
+#  notify: restart rsyslog
 
 - name: update keepalived info
   template: src=keepalived.conf dest=/etc/keepalived/keepalived.conf
