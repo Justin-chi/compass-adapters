@@ -1,4 +1,7 @@
 ---
+- name: restart rsyslog
+  service: name=rsyslog state=restarted
+
 - name: restart haproxy
   service: name=haproxy state=restarted enabled=yes
 
@@ -7,6 +10,3 @@
 
 - name: restart keepalived
   service: name=keepalived state=restarted enabled=yes
-
-#- name: restart rsyslog
-#  service: name=rsyslog state=restarted

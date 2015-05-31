@@ -23,13 +23,22 @@
   notify: restart haproxy
 
 - name: set haproxy log
-  lineinfile: dest=/etc/rsyslog.conf state=absent
-              regexp="local0.* /var/log/haproxy.log"
-
-- name: set haproxy log
   lineinfile: dest=/etc/rsyslog.conf state=present
-              line="local1.* /var/log/haproxy.log"
-#  notify: restart rsyslog
+              regexp="local0.* /var/log/haproxy.log"
+              line="local0.* /var/log/haproxy.log"
+  notify: restart rsyslog
+
+- name: set rsyslog udp module
+  lineinfile: dest=/etc/rsyslog.conf state=present
+              regexp="^#$ModLoad imudp"
+              line="$ModLoad imudp"
+  notify: restart rsyslog
+
+- name: set rsyslog udp port
+  lineinfile: dest=/etc/rsyslog.conf state=present
+              regexp="^#$UDPServerRun 514"
+              line="$UDPServerRun 514"
+  notify: restart rsyslog
 
 - name: copy galera_chk file
   copy: src=galera_chk dest=/usr/local/bin/galera_chk mode=0777
@@ -44,14 +53,17 @@
   copy: src=mysqlchk dest=/etc/xinetd.d/mysqlchk mode=0777
   notify: restart xinetd
 
-- name: set keepalived log
-  lineinfile: dest=/etc/rsyslog.conf state=absent
-              regexp="local0.*  /var/log/keepalived.log"
+- name: set keepalived start param
+  lineinfile: dest=/etc/default/keepalived state=present
+              regexp="^DAEMON_ARGS=*"
+              line="DAEMON_ARGS=\"-D -d -S 1\""
+  notify: restart rsyslog
 
 - name: set keepalived log
   lineinfile: dest=/etc/rsyslog.conf state=present
-              line="local0.*  /var/log/keepalived.log"
-#  notify: restart rsyslog
+              regexp="local1.* /var/log/keepalived.log"
+              line="local1.* /var/log/keepalived.log"
+  notify: restart rsyslog
 
 - name: update keepalived info
   template: src=keepalived.conf dest=/etc/keepalived/keepalived.conf
