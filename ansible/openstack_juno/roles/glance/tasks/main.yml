@@ -44,5 +44,7 @@
 
 - name: run image upload
   shell: /opt/image_upload.sh && touch image_upload_completed
+  retries: 5
+  delay: 3
   args:
     creates: image_upload_completed
