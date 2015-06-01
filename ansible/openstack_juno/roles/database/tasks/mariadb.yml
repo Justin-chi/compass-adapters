@@ -39,8 +39,7 @@
   lineinfile: dest=/usr/bin/wsrep_sst_rsync state=absent regexp="\s*gid = \$MYGID$"  backup=yes
 
 - name: manually restart mysql server
-  service: name=mysql
-           state=restarted
+  shell: service mysql restart
 
 - include: data.yml
   when: HA_CLUSTER[inventory_hostname] == None
