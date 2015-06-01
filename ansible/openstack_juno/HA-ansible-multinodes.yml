@@ -36,3 +36,9 @@
     - nova-compute
     - neutron-compute
 
+- hosts: odl_controller
+  remote_user: vagrant
+  sudo: True
+  roles:
+    - odl-os-cluster
+
