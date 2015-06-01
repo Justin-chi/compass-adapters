@@ -12,8 +12,6 @@
   copy: src=my.cnf
         dest=/etc/mysql/my.cnf
         backup=yes
-  notify:
-    - restart mysql
 
 - name: manually restart mysql server
   service: name=mysql
