@@ -24,6 +24,9 @@
       - dashboard
       - cinder-controller
       - glance
+      - cinder-volume
+      - neutron-common
+      - neutron-network
 
 - hosts: compute
   remote_user: root
