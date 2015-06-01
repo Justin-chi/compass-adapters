@@ -9,6 +9,8 @@
 
 - name: download mariadb and galera deb package
   get_url: url={{ item.url }} dest=/opt/{{ item.filename }}
+  retries: 5
+  delay: 3
   with_items:
     - { url:  "{{ MARIADB_URL }}", filename: "{{ MARIADB }}" }
     - { url:  "{{ GALERA_URL }}", filename: "{{ GALERA }}" }
