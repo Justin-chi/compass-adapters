@@ -11,8 +11,18 @@
         group=rabbitmq
         owner=rabbitmq
         mode=0400
+  when: ERLANG_TOKEN is defined
 
 - name: start and enable rabbitmq-server
   service: name=rabbitmq-server
            state=started
            enabled=yes
+
+- name: modify rabbitmq password
+  command: rabbitmqctl change_password guest {{ RABBIT_PASS }} 
+  when: RABBIT_USER == guest
+
+- name: add rabbitmq user
+  command: rabbitmqctl add_user {{ RABBIT_USER }} {{ RABBIT_PASS }}
+  when: RABBIT_USER != guest
+
