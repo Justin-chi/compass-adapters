@@ -4,7 +4,7 @@
 #  when: LOCAL_REPO is defined
 
 - name: copy deb packages
-  shell: cp /opt/repo/pool/main/* /var/cache/apt/archive
+  shell: cp -rf /opt/repo/pool/main/ /var/cache/apt/archive/
 
 - name: first update pkgs
   apt: update_cache=yes
