@@ -25,7 +25,7 @@
   template: src=cinder_init.sh dest=/opt/cinder_init.sh mode=0744
 
 - name: run cinder register script
-  shell: /opt/cinder_init.sh && touch cinder_init_complete
+  shell: for i in {0..5}; do /opt/cinder_init.sh && touch cinder_init_complete; if [ $? != 0 ]; then sleep 5; else break; fi; done
   when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
   args:
     creates: cinder_init_complete
