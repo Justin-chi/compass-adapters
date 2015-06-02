@@ -1,8 +1,11 @@
 ---
-- name: copy local sources.list
-  template: src=sources.list dest=/etc/apt/sources.list backup=yes
-  when: LOCAL_REPO is defined
+#- name: copy local sources.list
+#  template: src=sources.list dest=/etc/apt/sources.list backup=yes
+#  when: LOCAL_REPO is defined
+
+- name: copy deb packages
+  shell: cp /opt/repo/pool/main/* /var/cache/apt/archive
 
 - name: first update pkgs
   apt: update_cache=yes
-  when: LOCAL_REPO is defined
+#  when: LOCAL_REPO is defined
