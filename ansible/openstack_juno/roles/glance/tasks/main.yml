@@ -25,7 +25,7 @@
   shell: rm /var/lib/glance/glance.sqlite || touch glance.sqllite.db.removed
 
 - name: sync glance db
-  shell: su -s /bin/sh -c "glance-manage db_sync" glance
+  shell: sleep 15; su -s /bin/sh -c "glance-manage db_sync" glance
   when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
   notify:
     - restart glance-registry
@@ -43,8 +43,7 @@
   wait_for: host={{ image_host }} port=9292 delay=5
 
 - name: run image upload
-  shell: /opt/image_upload.sh && touch image_upload_completed
-  retries: 5
-  delay: 3
+  shell: for i in {0..5}; do /opt/image_upload.sh && touch image_upload_completed; if [ $? != 0 ] ;then sleep 5; else break;fi;done
+  when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
   args:
     creates: image_upload_completed
