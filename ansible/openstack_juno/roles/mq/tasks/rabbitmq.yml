@@ -1,6 +1,6 @@
 ---
 - name: install rabbitmq-server
-  apt: name=rabbitmq-server state=present
+  shell: export RABBITMQ_NODE_IP_ADDRESS={{ internal_ip }}; apt-get -y install rabbitmq-server;
 
 - name: stop rabbitmq-server
   service: name=rabbitmq-server
