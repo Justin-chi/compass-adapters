@@ -36,7 +36,7 @@
   mysql_db: name=neutron
             state=present
 
-- name: create neutron remote user
+- name: create neutron user
   mysql_user: host={{ item }}
               name=neutron
               password={{ NEUTRON_DBPASS }}
@@ -101,7 +101,7 @@
               password={{ WSREP_SST_PASS }}
               priv=ALL.*:ALL
               state=present
-  when: "ha is defined and HA_CLUSTER[inventory_hostname] == None"
+  when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
   with_items:
      - "localhost"
      - "%"
