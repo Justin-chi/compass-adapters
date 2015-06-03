@@ -43,7 +43,7 @@
 - name: manually restart mysql server
   shell: service mysql restart
 
-- name: update mysql config para 
+- name: update mysql config para
   shell: mysql -uroot -e"set global max_connect_errors=1000;"
 
 - include: data.yml

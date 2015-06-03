@@ -13,6 +13,12 @@
         mode=0400
   when: ERLANG_TOKEN is defined
 
+- name: copy rabbitmq config file
+  template: src=rabbitmq-env.conf dest=/etc/rabbitmq/rabbitmq-env.conf 
+        group=rabbitmq
+        owner=rabbitmq
+        mode=0744
+
 - name: start and enable rabbitmq-server
   service: name=rabbitmq-server
            state=started
