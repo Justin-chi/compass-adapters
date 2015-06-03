@@ -27,6 +27,10 @@
 - name: sync glance db
   shell: sleep 15; su -s /bin/sh -c "glance-manage db_sync" glance
   when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
+  register: result
+  until: result.rc == 0
+  retries: 5
+  delay: 3
   notify:
     - restart glance-registry
     - restart glance-api

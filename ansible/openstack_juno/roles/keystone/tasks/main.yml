@@ -15,6 +15,10 @@
 - name: keystone-manage db-sync
   shell: su -s /bin/sh -c "keystone-manage db_sync"
   when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
+  register: result
+  until: result.rc == 0
+  retries: 5
+  delay: 3
 
 - name: cron job to purge expired tokens hourly
   shell: (crontab -l -u keystone 2>&1 | grep -q token_flush) || echo '@hourly /usr/bin/keystone-manage token_flush > /var/log/keystone/keystone-tokenflush.log 2>&1' >> /var/spool/cron/crontabs/keystone

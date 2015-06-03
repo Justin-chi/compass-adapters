@@ -1,4 +1,7 @@
 ---
+- include: rabbitmq_cluster_pre.yml
+  when: HA_CLUSTER is defined
+
 - include: rabbitmq.yml
 
 - include: rabbitmq_cluster.yml

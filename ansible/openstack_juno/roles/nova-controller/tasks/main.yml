@@ -27,6 +27,10 @@
 - name: nova db sync
   command: su -s /bin/sh -c "nova-manage db sync" nova
   when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
+  register: result
+  until: result.rc == 0
+  retries: 5
+  delay: 3
   notify:
     - restart nova-api
     - restart nova-cert

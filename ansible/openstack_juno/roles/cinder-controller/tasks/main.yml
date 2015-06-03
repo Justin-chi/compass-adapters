@@ -15,6 +15,10 @@
 - name: sync cinder db
   shell: su -s /bin/sh -c "cinder-manage db sync" cinder && cinder
   when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
+  register: result
+  until: result.rc == 0
+  retries: 5
+  delay: 3
   notify:
     - restart cinder-scheduler
     - restart cinder-api
