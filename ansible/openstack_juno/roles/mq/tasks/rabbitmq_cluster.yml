@@ -7,6 +7,12 @@
   command: rabbitmqctl reset
   when: HA_CLUSTER[inventory_hostname] != None
 
+- name: stop  rabbitmq
+  shell:  rabbitmqctl stop
+
+- name: set detach
+  shell: rabbitmq-server -detached
+
 - name: join  cluster
   command: rabbitmqctl join_cluster rabbit@{{ item }}
   when: item  != inventory_hostname and HA_CLUSTER[item] == None

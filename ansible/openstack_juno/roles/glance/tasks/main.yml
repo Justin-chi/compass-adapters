@@ -24,6 +24,9 @@
 - name: remove default sqlite db
   shell: rm /var/lib/glance/glance.sqlite || touch glance.sqllite.db.removed
 
+- name: init glance db version
+  shell: glance-manage version_control 0
+
 - name: sync glance db
   shell: sleep 15; su -s /bin/sh -c "glance-manage db_sync" glance
   when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"

@@ -60,13 +60,6 @@
               regexp="local1.* /var/log/keepalived.log"
               line="local1.* /var/log/keepalived.log"
 
-- name: copy notify shell file
-  copy: src={{ item }} dest=/etc/keepalived/{{ item }} mode=777
-  with_items:
-    - "master.sh"
-    - "backup.sh"
-    - "fault.sh"
-
 - name: update keepalived info
   template: src=keepalived.conf dest=/etc/keepalived/keepalived.conf
   notify: restart keepalived

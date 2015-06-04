@@ -16,4 +16,7 @@
 - name: manually restart mysql server
   shell: service mysql restart
 
-- include: data.yml
+- name: create database/user
+  shell: /opt/data.sh
+  tags:
+    - mysql_user

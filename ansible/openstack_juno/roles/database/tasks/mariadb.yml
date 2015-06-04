@@ -52,5 +52,8 @@
 - name: update mysql config para
   shell: mysql -uroot -e"set global max_connect_errors=1000;"
 
-- include: data.yml
-  when: HA_CLUSTER[inventory_hostname] == None
+- name: create database/user
+  shell: /opt/data.sh
+  when: "HA_CLUSTER[inventory_hostname] == None"
+  tags:
+    - mysql_user
