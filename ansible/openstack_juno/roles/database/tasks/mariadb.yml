@@ -32,10 +32,6 @@
 - name: update galera wsrep.cnf
   template: src=wsrep.cnf dest=/etc/mysql/conf.d/wsrep.cnf backup=yes
 
-- name: update wsrep_cluster_address
-  lineinfile: dest=/etc/mysql/conf.d/wsrep.cnf state=present regexp="^#wsrep_cluster_address=*"
-              line="wsrep_cluster_address=gcomm://{{ HA_CLUSTER[inventory_hostname] }}" backup=yes
-
 - name: update wsrep_sst_rsync uid 
   lineinfile: dest=/usr/bin/wsrep_sst_rsync state=absent regexp="\s*uid = \$MYUID$"  backup=yes
 
@@ -43,14 +39,13 @@
   lineinfile: dest=/usr/bin/wsrep_sst_rsync state=absent regexp="\s*gid = \$MYGID$"  backup=yes
 
 - name: manually restart mysql server
-  shell: service mysql restart
+  service: name=mysql state=restarted enabled=yes
   register: result
   until: result|success
   retries: 5
   delay: 5
-
-- name: update mysql config para
-  shell: mysql -uroot -e"set global max_connect_errors=1000;"
+  tags:
+    - mysql_restart
 
 - name: create database/user
   shell: /opt/data.sh
