@@ -14,7 +14,7 @@
 
 - name: sync cinder db
   shell: su -s /bin/sh -c "cinder-manage db sync" cinder && cinder
-  when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
+  when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == ''"
   register: result
   until: result.rc == 0
   retries: 5
@@ -30,6 +30,6 @@
 
 - name: run cinder register script
   shell: for i in {0..5}; do /opt/cinder_init.sh && touch cinder_init_complete; if [ $? != 0 ]; then sleep 5; else break; fi; done
-  when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == None"
+  when: "HA_CLUSTER is defined and HA_CLUSTER[inventory_hostname] == ''"
   args:
     creates: cinder_init_complete

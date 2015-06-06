@@ -49,6 +49,6 @@
 
 - name: create database/user
   shell: /opt/data.sh
-  when: "HA_CLUSTER[inventory_hostname] == None"
+  when: "HA_CLUSTER[inventory_hostname] == ''"
   tags:
     - mysql_user
