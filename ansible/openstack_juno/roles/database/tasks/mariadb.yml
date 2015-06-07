@@ -4,6 +4,7 @@
   with_items:
       - libaio1
       - libssl0.9.8
+      #- mariadb-client-5.5
       - mysql-client-5.5
       - python-mysqldb
 
@@ -39,7 +40,7 @@
   lineinfile: dest=/usr/bin/wsrep_sst_rsync state=absent regexp="\s*gid = \$MYGID$"  backup=yes
 
 - name: manually restart mysql server
-  service: name=mysql state=restarted enabled=yes
+  service: name=mysql state=restarted enabled=yes enabled=yes
   register: result
   until: result|success
   retries: 5
@@ -49,6 +50,6 @@
 
 - name: create database/user
   shell: /opt/data.sh
-  when: "HA_CLUSTER[inventory_hostname] == ''"
+  when: HA_CLUSTER[inventory_hostname] == ''
   tags:
     - mysql_user

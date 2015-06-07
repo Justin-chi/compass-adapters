@@ -6,6 +6,9 @@
 - name: copy deb packages
   shell: cp -rf /opt/repo/pool/main/ /var/cache/apt/archive/
 
+- name: add juno cloudarchive
+  apt_repository: repo="{{ juno_cloud_archive }}" state=present
+
 - name: first update pkgs
   apt: update_cache=yes
 #  when: LOCAL_REPO is defined

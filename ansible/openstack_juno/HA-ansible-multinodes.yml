@@ -4,6 +4,7 @@
   sudo: true
   roles:
     - repo
+    - common
 
 - hosts: ha
   remote_user: root
@@ -15,7 +16,6 @@
   remote_user: root
   sudo: True
   roles:
-      - common
       - database
       - mq
       - keystone
@@ -32,7 +32,6 @@
   remote_user: root
   sudo: True
   roles:
-    - common
     - nova-compute
     - neutron-compute
 

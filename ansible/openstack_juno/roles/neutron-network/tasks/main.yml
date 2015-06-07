@@ -99,6 +99,6 @@
   when: "'opendaylight' in {{ NEUTRON_MECHANISM_DRIVERS }}"
 
 - name: restart ovs service
-  service: name=openvswitch-switch state=restarted
+  service: name=openvswitch-switch state=restarted enabled=yes
 
 - meta: flush_handlers

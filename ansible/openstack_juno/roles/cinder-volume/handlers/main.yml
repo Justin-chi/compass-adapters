@@ -1,6 +1,6 @@
 ---
 - name: restart cinder-volume
-  service: name=cinder-volume state=restarted
+  service: name=cinder-volume state=restarted enabled=yes
 
 - name: restart tgt
   shell: service mysql restart
