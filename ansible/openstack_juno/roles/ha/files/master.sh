@@ -1,2 +1,2 @@
 #!/bin/bash
-service mysql restart
+python /usr/local/bin/failover.py $1

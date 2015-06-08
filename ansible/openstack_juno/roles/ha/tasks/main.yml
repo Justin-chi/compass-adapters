@@ -1,12 +1,11 @@
 ---
-- name: install keepalived
-  apt: name=keepalived state=present
-
-- name: install xinetd
-  apt: name=xinetd state=present
-
-- name: install haproxy
-  apt: name=haproxy state=present
+- name: install keepalived xinet haproxy pexpect
+  apt: name={{ item }} state=present
+  with_items:
+    - keepalived
+    - xinetd
+    - haproxy
+    - pexpect
 
 - name: activate ip_nonlocal_bind
   sysctl: name=net.ipv4.ip_nonlocal_bind value=1
@@ -42,6 +41,9 @@
 
 - name: copy notify file
   copy: src=master.sh dest=/usr/local/bin/master.sh mode=0777
+  
+- name: copy notify template file
+  template: src=failover.j2 dest=/usr/local/bin/failover.py mode=0777
 
 - name: add network service
   lineinfile: dest=/etc/services state=present
