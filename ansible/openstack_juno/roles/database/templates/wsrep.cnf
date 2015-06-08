@@ -31,7 +31,8 @@ query_cache_type=0
 # Override bind-address
 # In some systems bind-address defaults to 127.0.0.1, and with mysqldump SST
 # it will have (most likely) disastrous consequences on donor node
-bind-address={{ hostvars[inventory_hostname]['ansible_' + INTERNAL_INTERFACE].ipv4.address }}
+#bind-address={{ hostvars[inventory_hostname]['ansible_' + INTERNAL_INTERFACE].ipv4.address }}
+bind-address={{ HA_VIP }}
 
 ##
 ## WSREP options
