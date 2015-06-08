@@ -1,11 +1,13 @@
 ---
-- name: install keepalived xinet haproxy pexpect
+- name: install keepalived xinet haproxy 
   apt: name={{ item }} state=present
   with_items:
     - keepalived
     - xinetd
     - haproxy
-    - pexpect
+   
+- name: install pexpect
+  pip: name=pexpect state=present
 
 - name: activate ip_nonlocal_bind
   sysctl: name=net.ipv4.ip_nonlocal_bind value=1
