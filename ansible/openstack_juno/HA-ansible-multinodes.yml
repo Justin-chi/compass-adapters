@@ -27,6 +27,7 @@
       - cinder-volume
       - neutron-common
       - neutron-network
+      - odl-os-cluster
 
 - hosts: compute
   remote_user: root
@@ -34,10 +35,4 @@
   roles:
     - nova-compute
     - neutron-compute
-
-- hosts: odl_controller
-  remote_user: vagrant
-  sudo: True
-  roles:
-    - odl-os-cluster
 
