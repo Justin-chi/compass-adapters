@@ -1,4 +1,8 @@
 ---
+- include: nfs.yml
+  tags:
+    - nfs
+
 - include: glance_install.yml
   tags:
     - install
