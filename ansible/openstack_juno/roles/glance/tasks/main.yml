@@ -1,13 +1,13 @@
 ---
-- include: nfs.yml
-  tags:
-    - nfs
-
 - include: glance_install.yml
   tags:
     - install
     - glance_install
     - glance
+
+- include: nfs.yml
+  tags:
+    - nfs
 
 - include: glance_config.yml
   when: HA_CLUSTER is not defined or HA_CLUSTER[inventory_hostname] == ''
