@@ -119,7 +119,7 @@
     service openvswitch-switch start ;
 
 - name: Set OpenDaylight as the manager
-  command: su -s /bin/sh -c "ovs-vsctl set-manager tcp:{{controller}}:6640;"
+  command: su -s /bin/sh -c "ovs-vsctl set-manager tcp:{{ internal_ip }}:6640;"
 
 - name: Install Crudini
   apt: name={{ item }} state=present
