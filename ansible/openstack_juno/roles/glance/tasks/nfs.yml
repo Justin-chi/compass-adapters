@@ -1,7 +1,7 @@
 ---
 - name: get nfs server
   local_action: shell  /sbin/ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6| grep "10" -m 1 |awk '{print $2}'|tr -d "addr:"
-  register:  localip
+  register: ip_info
   run_once: True
 
 - name: install nfs
@@ -27,10 +27,12 @@
 
 - name: get mount info
   command: mount
-  register: result
+  register: mount_info
 
 - name: mount image directory
-  shell: mount -t nfs  -onfsvers=3 {{ localip }}:/opt/images /var/lib/glance/images
-  when: result.stdout.find('images') == -1
-  run_once: True
-
+  shell: mount -t nfs  -onfsvers=3 {{ item }}:/opt/images /var/lib/glance/images
+  when: mount_info.stdout.find('images') == -1
+  with_items:
+      ip_info.stdout_lines
+  retries: 5
+  delay: 3
