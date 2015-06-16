@@ -6,11 +6,30 @@
     - xinetd
     - haproxy
    
+- name: generate ha service list
+  shell: echo {{ item }} >> /opt/service
+  with_items:
+    - keepalived
+    - xinetd
+    - haproxy
+
 - name: install pexpect
   pip: name=pexpect state=present
 
 - name: activate ip_nonlocal_bind
   sysctl: name=net.ipv4.ip_nonlocal_bind value=1
+          state=present reload=yes
+
+- name: set net.ipv4.tcp_keepalive_intvl 
+  sysctl: name=net.ipv4.tcp_keepalive_intvl value=1
+          state=present reload=yes
+
+- name: set net.ipv4.tcp_keepalive_probes
+  sysctl: name=net.ipv4.tcp_keepalive_probes value=5
+          state=present reload=yes
+
+- name: set net.ipv4.tcp_keepalive_time
+  sysctl: name=net.ipv4.tcp_keepalive_time value=5
           state=present reload=yes
 
 - name: update haproxy cfg
@@ -42,7 +61,7 @@
   copy: src=galera_chk dest=/usr/local/bin/galera_chk mode=0777
 
 - name: copy notify file
-  copy: src=master.sh dest=/usr/local/bin/master.sh mode=0777
+  copy: src=notify.sh dest=/usr/local/bin/notify.sh mode=0777
   
 - name: copy notify template file
   template: src=failover.j2 dest=/usr/local/bin/failover.py mode=0777

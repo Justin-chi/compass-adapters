@@ -48,6 +48,12 @@
   tags:
     - mysql_restart
 
+- name: generate mysql service list
+  shell: echo {{ item }} >> /opt/service
+  with_items:
+   - mysql
+
+
 - name: create database/user
   shell: /opt/data.sh
   when: HA_CLUSTER[inventory_hostname] == ''

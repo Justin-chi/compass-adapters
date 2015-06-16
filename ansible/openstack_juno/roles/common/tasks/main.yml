@@ -1,5 +1,4 @@
 ---
-
 - name: install ubuntu-cloud-keyring(ubuntu)
   apt: name={{ item }} state=latest
   with_items:
@@ -18,8 +17,12 @@
     - python-mysqldb
     - ntp
 
+- name: restart ntp
+  command: su -s /bin/sh -c "service ntp stop; ntpd -gq; hwclock --systohc"
+  ignore_errors: True
+
 - name: update ntp conf
   template: src=ntp.conf dest=/etc/ntp.conf backup=yes
-  notify:
-    - restart ntp
 
+- name: restart ntp
+  service: name=ntp state=restarted enabled=yes

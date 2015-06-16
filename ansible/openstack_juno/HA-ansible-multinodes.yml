@@ -16,18 +16,16 @@
   remote_user: root
   sudo: True
   roles:
-      - database
-      - mq
-      - keystone
-      - nova-controller
-      - neutron-controller
-      - dashboard
-      - cinder-controller
-      - glance
-      - cinder-volume
-      - neutron-common
-      - neutron-network
-      - odl-os-cluster
+    - database
+    - mq
+    - keystone
+    - nova-controller
+    - neutron-controller
+    - cinder-controller
+    - glance
+    - neutron-common
+    - neutron-network
+    - dashboard
 
 - hosts: compute
   remote_user: root
@@ -35,4 +33,10 @@
   roles:
     - nova-compute
     - neutron-compute
+    - cinder-volume
 
+- hosts: all
+  remote_user: root
+  sudo: True
+  roles:
+    - monitor

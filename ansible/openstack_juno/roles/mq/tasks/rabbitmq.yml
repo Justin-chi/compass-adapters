@@ -24,6 +24,11 @@
            state=started
            enabled=yes
 
+- name: generate mq service list
+  shell: echo {{ item }} >> /opt/service
+  with_items:
+    - rabbitmq-server
+
 - name: modify rabbitmq password
   command: rabbitmqctl change_password guest {{ RABBIT_PASS }}
   when: "RABBIT_USER is defined and RABBIT_USER == 'guest'"

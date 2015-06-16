@@ -6,6 +6,12 @@
     - cinder-scheduler
     - python-cinderclient
 
+- name: generate cinder service list
+  shell: echo {{ item }} >> /opt/service
+  with_items:
+    - cinder-api
+    - cinder-scheduler
+
 - name: upload cinder conf
   template: src=cinder.conf dest=/etc/cinder/cinder.conf
   notify:
